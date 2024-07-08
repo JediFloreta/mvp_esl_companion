@@ -1,8 +1,5 @@
 import React from 'react';
-import TextToSpeechPractice from '../components/ESLCompanion';
 import ESLCompanion from '../components/ESLCompanion';
-
-// ... existing code ...
 
 const Page = () => {
     return (
@@ -13,5 +10,3 @@ const Page = () => {
 };
 
 export default Page;
-
-// ... existing code ...
