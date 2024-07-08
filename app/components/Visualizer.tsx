@@ -23,7 +23,7 @@ interface VisualizerProps {
 
 const Visualizer: React.FC<VisualizerProps> = ({ source, context }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
+  const contextRef = useRef<AudioContext | null>(context || null);
   if (!context) {
     context = new (window.AudioContext || window.webkitAudioContext)();
   }
@@ -31,12 +31,15 @@ const Visualizer: React.FC<VisualizerProps> = ({ source, context }) => {
   const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
   useEffect(() => {
+    if (!contextRef.current) {
+      contextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    }
     let audioSource: AudioNode;
 
     if (source instanceof MediaStream) {
-      audioSource = context.createMediaStreamSource(source);
+      audioSource = contextRef.current.createMediaStreamSource(source);
     } else {
-      audioSource = context.createMediaElementSource(source);
+      audioSource = contextRef.current.createMediaElementSource(source);
     }
 
     audioSource.connect(analyser);
